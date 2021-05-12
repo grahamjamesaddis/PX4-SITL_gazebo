@@ -1,20 +1,37 @@
+{# ---------------------------------------------------------------- #}
+{# macros #}
+{# ---------------------------------------------------------------- #}
+{%- macro inertial() -%}
+<inertial>
+  <mass>{{kwargs['m']}}</mass>
+  <inertia>
+    <ixx>{{kwargs['ixx']}}</ixx>
+    <ixy>{{kwargs['ixy']}}</ixy>
+    <ixz>{{kwargs['ixz']}}</ixz>
+    <iyy>{{kwargs['iyy']}}</iyy>
+    <iyz>{{kwargs['iyz']}}</iyz>
+    <izz>{{kwargs['izz']}}</izz>
+  </inertia>
+</inertial>
+{%- endmacro -%}
+{%- macro channel(name) -%}
+<channel name="{{name}}">
+  <input_index>{{kwargs['i_index']}}</input_index>
+  <input_offset>{{kwargs['i_offset']}}</input_offset>
+  <input_scaling>{{kwargs['i_scaling']}}</input_scaling>
+  <zero_position_disarmed>{{kwargs['zp_disarmed']}}</zero_position_disarmed>
+  <zero_position_armed>{{kwargs['zp_armed']}}</zero_position_armed>
+  <joint_control_type>{{kwargs['jc_type']}}</joint_control_type>
+  <joint_name>{{name}}_joint</joint_name>
+</channel>
+{%- endmacro -%}
+{##}
 <?xml version="1.0"?>
 <sdf version='1.6'>
   <model name='tailsitter_duo'>
     <link name='base_link'>
       <pose>0 0 0.2 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>1.6</mass>
-        <inertia>
-          <ixx>0.147563</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0458929</iyy>
-          <iyz>0</iyz>
-          <izz>0.1977</izz>
-        </inertia>
-      </inertial>
+      {{ inertial( m=1.6, ixx=0.147563, ixy=0, ixz=0, iyy=0.0458929, iyz=0, izz=0.1977 ) | indent(6)}}
       <collision name='base_link_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -55,18 +72,7 @@
     </link>
     <link name='tailsitter_duo/imu_link'>
       <pose>0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.015</mass>
-        <inertia>
-          <ixx>1e-05</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>1e-05</iyy>
-          <iyz>0</iyz>
-          <izz>1e-05</izz>
-        </inertia>
-      </inertial>
+      {{ inertial( m=0.015, ixx=1e-05, ixy=0, ixz=0, iyy=1e-05, iyz=0, izz=1e-05 ) | indent(6)}}
     </link>
     <joint name='tailsitter_duo/imu_joint' type='revolute'>
       <child>tailsitter_duo/imu_link</child>
@@ -97,18 +103,7 @@
     </joint>
     <link name='rotor_0'>
       <pose>0.0 -0.3 0.8 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
-        <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
-        </inertia>
-      </inertial>
+      {{ inertial( m=0.005, ixx=9.75e-07, ixy=0, ixz=0, iyy=0.000166704, iyz=0, izz=0.000166704 ) | indent(6)}}
       <collision name='rotor_0_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -163,18 +158,7 @@
     </joint>
     <link name='rotor_1'>
       <pose>0.0 0.3 0.8 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
-        <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
-        </inertia>
-      </inertial>
+      {{ inertial( m=0.005, ixx=9.75e-07, ixy=0, ixz=0, iyy=0.000166704, iyz=0, izz=0.000166704 ) | indent(6)}}
       <collision name='rotor_1_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -228,46 +212,16 @@
       </axis>
     </joint>
     <link name="left_elevon">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>0 0.3 -0.3 0.00 0 0.0</pose>
-      </inertial>
+      <pose>0 0.3 -0.3 0.00 0 0.0</pose>
+      {{ inertial( m=0.00000001, ixx=0.000001, ixy=0, ixz=0, iyy=0.000001, iyz=0, izz=0.000001 ) | indent(6)}}
     </link>
     <link name="right_elevon">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>0 -0.3 -0.3 0.00 0 0.0</pose>
-      </inertial>
+      <pose>0 -0.3 -0.3 0.00 0 0.0</pose>
+      {{ inertial( m=0.00000001, ixx=0.000001, ixy=0, ixz=0, iyy=0.000001, iyz=0, izz=0.000001 ) | indent(6)}}
     </link>
     <link name="rudder">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>0 0 -0.5 0.00 0 0.0</pose>
-      </inertial>
+      <pose>0 0 -0.5 0.00 0 0.0</pose>
+      {{ inertial( m=0.00000001, ixx=0.000001, ixy=0, ixz=0, iyy=0.000001, iyz=0, izz=0.000001 ) | indent(6)}}
     </link>
     <joint name='left_elevon_joint' type='revolute'>
       <parent>base_link</parent>
@@ -493,42 +447,14 @@
       <use_tcp>true</use_tcp>
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
       <control_channels>
-        <channel name="rotor0">
-          <input_index>0</input_index>
-          <input_offset>0</input_offset>
-          <input_scaling>1200</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
-          <zero_position_armed>0</zero_position_armed>
-          <joint_control_type>velocity</joint_control_type>
-          <joint_name>rotor_0_joint</joint_name>
-        </channel>
-        <channel name="rotor1">
-          <input_index>1</input_index>
-          <input_offset>0</input_offset>
-          <input_scaling>1200</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
-          <zero_position_armed>0</zero_position_armed>
-          <joint_control_type>velocity</joint_control_type>
-          <joint_name>rotor_1_joint</joint_name>
-        </channel>
-        <channel name="left_elevon">
-          <input_index>4</input_index>
-          <input_offset>0</input_offset>
-          <input_scaling>1</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
-          <zero_position_armed>0</zero_position_armed>
-          <joint_control_type>position_kinematic</joint_control_type>
-          <joint_name>left_elevon_joint</joint_name>
-        </channel>
-        <channel name="right_elevon">
-          <input_index>5</input_index>
-          <input_offset>0</input_offset>
-          <input_scaling>1</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
-          <zero_position_armed>0</zero_position_armed>
-          <joint_control_type>position_kinematic</joint_control_type>
-          <joint_name>right_elevon_joint</joint_name>
-        </channel>
+        {{ channel('rotor_0', i_index=0, i_offset=0, i_scaling=1200,
+          zp_disarmed=0, zp_armed=0, jc_type='velocity') | indent(8)}}
+        {{ channel('rotor_1', i_index=1, i_offset=0, i_scaling=1200,
+          zp_disarmed=0, zp_armed=0, jc_type='velocity') | indent(8)}}
+        {{ channel('left_elevon', i_index=4, i_offset=0, i_scaling=1,
+          zp_disarmed=0, zp_armed=0, jc_type='position_kinematic') | indent(8)}}
+        {{ channel('right_elevon', i_index=5, i_offset=0, i_scaling=1,
+          zp_disarmed=0, zp_armed=0, jc_type='position_kinematic') | indent(8)}}
       </control_channels>
     </plugin>
     <static>0</static>
