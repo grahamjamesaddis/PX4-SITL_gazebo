@@ -1,21 +1,30 @@
+{# ---------------------------------------------------------------- -#}
+{# macros -#}
+{# ---------------------------------------------------------------- -#}
+{%- macro inertial(m) -%}
+<inertial>
+  <pose>{{kwargs.x|default(0)}} {{kwargs.z|default(0)}} {# -#}
+{{kwargs.z|default(0)}} {{kwargs.roll|default(0)}} {# -#}
+{{kwargs.pitch|default(0)}} {{kwargs.yaw|default(0)}}</pose>
+  <mass>{{m}}</mass>
+  <inertia>
+    <ixx>{{kwargs.ixx|default(0)}}</ixx>
+    <ixy>{{kwargs.ixy|default(0)}}</ixy>
+    <ixz>{{kwargs.ixz|default(0)}}</ixz>
+    <iyy>{{kwargs.iyy|default(0)}}</iyy>
+    <iyz>{{kwargs.iyz|default(0)}}</iyz>
+    <izz>{{kwargs.izz|default(0)}}</izz>
+  </inertia>
+</inertial>
+{%- endmacro -%}
+
 <?xml version="1.0"?>
 <!-- DO NOT EDIT: Generated from tailsitter_mono.sdf.jinja -->
 <sdf version='1.6'>
   <model name='tailsitter_mono'>
     <link name='base_link'>
       <pose>0 0 0.2 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>1.6</mass>
-        <inertia>
-          <ixx>0.147563</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0458929</iyy>
-          <iyz>0</iyz>
-          <izz>0.1977</izz>
-        </inertia>
-      </inertial>
+      {{ inertial(1.6, ixx=0.147563, iyy=0.0458929, izz=0.1977)|indent(6) }}
       <collision name='base_link_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -56,18 +65,7 @@
     </link>
     <link name='tailsitter_mono/imu_link'>
       <pose>0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.015</mass>
-        <inertia>
-          <ixx>1e-05</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>1e-05</iyy>
-          <iyz>0</iyz>
-          <izz>1e-05</izz>
-        </inertia>
-      </inertial>
+      {{ inertial(0.015, ixx=1e-05, iyy=01e-05, izz=1e-05)|indent(6) }}
     </link>
     <joint name='tailsitter_mono/imu_joint' type='revolute'>
       <child>tailsitter_mono/imu_link</child>
@@ -97,19 +95,8 @@
       <parent>base_link</parent>
     </joint>
     <link name='rotor_0'>
-      <pose>0 0 0.7 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
-        <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
-        </inertia>
-      </inertial>
+      <pose>0 0 1 0 0 0</pose>
+      {{ inertial(0.005, ixx=9.75e-07, iyy=0.000166704, izz=0.000167604)|indent(6) }}
       <collision name='rotor_0_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -338,12 +325,12 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1200</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
+      <maxRotVelocity>2000</maxRotVelocity>
+      <motorConstant>2e-05</motorConstant>
       <momentConstant>0.06</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber>
-      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rotorDragCoefficient>0.0000806428</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
