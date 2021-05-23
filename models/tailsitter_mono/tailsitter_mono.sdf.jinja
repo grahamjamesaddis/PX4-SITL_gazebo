@@ -3,7 +3,7 @@
 {# ---------------------------------------------------------------- -#}
 {%- macro inertial(m) -%}
 <inertial>
-  <pose>{{kwargs.x|default(0)}} {{kwargs.z|default(0)}} {# -#}
+  <pose>{{kwargs.x|default(0)}} {{kwargs.y|default(0)}} {# -#}
 {{kwargs.z|default(0)}} {{kwargs.roll|default(0)}} {# -#}
 {{kwargs.pitch|default(0)}} {{kwargs.yaw|default(0)}}</pose>
   <mass>{{m}}</mass>
@@ -149,33 +149,14 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+    <link name="left_elevon_link">
+    {{ inertial(0.00000001, ixx=0.000001, iyy=0.000001, izz=0.000001, y=0.3, z=-0.3)|indent(6) }}
+    </link>
     <link name="right_elevon_link">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>0 -0.3 -0.3 0.00 0 0.0</pose>
-      </inertial>
+    {{ inertial(0.00000001, ixx=0.000001, iyy=0.000001, izz=0.000001, y=-0.3, z=-0.3)|indent(6) }}
     </link>
     <link name="rudder_link">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>0 0 -0.5 0.00 0 0.0</pose>
-      </inertial>
+    {{ inertial(0.00000001, ixx=0.000001, iyy=0.000001, izz=0.000001, z=-0.5)|indent(6) }}
     </link>
     <joint name='left_elevon_joint' type='revolute'>
       <parent>base_link</parent>
@@ -326,8 +307,8 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2000</maxRotVelocity>
-      <motorConstant>2e-05</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <motorConstant>6e-05</motorConstant>
+      <momentConstant>0.07</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber>
       <rotorDragCoefficient>0.0000806428</rotorDragCoefficient>
